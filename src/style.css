@@ -1,0 +1,48 @@
+*
+{
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body
+{
+    height: 100vh;
+    font-family: 'Poppins';
+    background: rgb(24,24,24);
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.webgl
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    outline: none;
+    mix-blend-mode: exclusion;
+}
+
+.container {
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 100px;
+    display: grid;
+    place-items: center;
+    color: white;
+}
+
+i {
+    width: 100%;
+}
+
+h1 {
+    font-size: 4rem;
+    text-transform: uppercase;
+}
+
+section {
+    height: 100vh;
+}
