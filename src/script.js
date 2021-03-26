@@ -4,6 +4,17 @@ import {UserMarker} from './UserMarker'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 
+// Loading Manager
+const loadingManager = new THREE.LoadingManager()
+loadingManager.onProgress = () => {
+    console.log('progressing')
+}
+const texture = new THREE.TextureLoader(loadingManager).load("./img/texMap.jpeg")
+const displacementMap = new THREE.TextureLoader(loadingManager).load("./img/dispMap.jpeg")
+
+
+
+
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -26,11 +37,13 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio,2))
 document.body.appendChild(renderer.domElement)
 
+// Controls
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.screenSpacePanning = true
 controls.enableDamping = true
 //controls.addEventListener('change', render)
 
+// Texture
 let imageWidth = 1200;
 let imageHeight = 600;
 const segmentsX = 150
@@ -40,15 +53,14 @@ let meshWidth = fov_y * camera.aspect;
 let meshHeight = meshWidth / imageAspect;
 const planeGeometry = new THREE.PlaneGeometry(meshWidth, meshHeight, segmentsX, segmentsX/imageAspect)
 const material = new THREE.MeshPhongMaterial()
-const texture = new THREE.TextureLoader().load("/img/texMap.jpeg")
 material.map = texture
-
-const displacementMap = new THREE.TextureLoader().load("img/dispMap.jpeg")
 material.displacementMap = displacementMap
 
+// Mesh
 const plane = new THREE.Mesh(planeGeometry, material)
 scene.add(plane)
 
+// Resize
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight
     camera.updateProjectionMatrix()
@@ -63,6 +75,7 @@ window.addEventListener('resize', () => {
 }, 
 false)
 
+// Fullscreen
 window.addEventListener('dblclick', () => {
     const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement
     if (!fullscreenElement){
@@ -81,6 +94,8 @@ window.addEventListener('dblclick', () => {
 })
 
 const gui = new dat.GUI()
+
+// Material Properties
 material.transparent = true;
 material.depthTest = false;
 material.opacity = 0.3;
@@ -117,24 +132,26 @@ function updateMaterial() {
 }
 
 
-// App
-
+// Animate
 var animate = function () {
     requestAnimationFrame(animate)
-    draw()
+    placeUsers()
     controls.update()
-    render()
+    renderer.render(scene, camera)
 };
 
+// Set Default Users
 let points = new Map()
 let diameter = 1e-1/6;
 points.set('me',new UserMarker({diameter:diameter, meshWidth:meshWidth, meshHeight:meshHeight}))
 points.set('CapeCod',new UserMarker({latitude: -33.918861, longitude: 18.423300, diameter:diameter, meshWidth:meshWidth, meshHeight:meshHeight})); // Cape Town
 points.set('LA',new UserMarker({latitude: 34.0522, longitude: -118.2437, diameter:diameter, meshWidth:meshWidth, meshHeight:meshHeight})); // Cape Town
 
+// Get My Location
 getGeolocation()
 
-function draw(){
+// Draw Shapes
+function placeUsers(){
     points.forEach(point => {
 
         // Remove old spheres
@@ -168,9 +185,5 @@ function getGeolocation(){
         timeout: 5000,
         maximumAge: 0
     });
-}
-
-function render() {
-    renderer.render(scene, camera)
 }
 animate();
