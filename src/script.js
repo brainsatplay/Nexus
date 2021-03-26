@@ -9,8 +9,10 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
-const light = new THREE.PointLight(0x00b3ff, 2);
+// const light = new THREE.PointLight(0xffffff, 2);
+const light = new THREE.AmbientLight(0xffffff);
 light.position.set(0, 5, 10);
+light.intensity = 1.4;
 scene.add(light);
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -78,13 +80,20 @@ window.addEventListener('dblclick', () => {
     }
 })
 
-// const gui = new dat.GUI()
+const gui = new dat.GUI()
 material.transparent = true;
 material.depthTest = false;
 material.opacity = 0.3;
 
+// gui.add(material,'opacity')
+// .min(0)
+// .max(1)
+// .step(0.01)
+// .name('Opacity')
+
+
 var data = {
-    color: '#ffffff',
+    color: 0x00b3ff,
     emissive: material.emissive.getHex(),
     specular: material.specular.getHex()
 };
