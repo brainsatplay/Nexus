@@ -41,25 +41,25 @@ export class UserMarker {
   }
 
   createSphere(){
-    // Log old sphere
-    if (this.sphere != undefined) {this.prevSpheres.push(this.sphere)}
+    // // Log old sphere
+    // if (this.sphere != undefined) {this.prevSpheres.push(this.sphere)}
 
-    // Create new sphere
-    this.geometry = new THREE.SphereGeometry( this.d,10,10);
-    this.material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
-    this.material.transparent = true;
-    // this.material.opacity = 0.5
-    this.sphere = new THREE.Mesh( this.geometry, this.material );
-    this.sphere.position.set(this.x-this.meshWidth/2, -this.y+this.meshHeight/2, 0.1);
-    this.sphere.opacity = 0.5
+    // // Create new sphere
+    // this.geometry = new THREE.SphereGeometry( this.d,10,10);
+    // this.material = new THREE.MeshBasicMaterial( {color: 0xffffff} );
+    // this.material.transparent = true;
+    // // this.material.opacity = 0.5
+    // this.sphere = new THREE.Mesh( this.geometry, this.material );
+    // this.sphere.position.set(this.x, this.y, 0.1);
+    // this.sphere.opacity = 0.5
   }
 
   mercX(lon) { 
-    return (lon+180)*(this.meshWidth/360)
+    return (lon+180)*(this.meshWidth/360) - this.meshWidth/2
   }
   
   mercY(lat) {
-    return ((this.meshHeight/180.0) * (90 - lat));
+    return -((this.meshHeight/180.0) * (90 - lat)) + this.meshHeight/2;
   }
 
 }
