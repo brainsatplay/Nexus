@@ -1,2 +1,0 @@
-# Nexus
- Neurofeedback + Group Meditation
