@@ -64,7 +64,7 @@ light.position.set(0, 5, 10);
 light.intensity = 1.4;
 scene.add(light);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.01, 1000)
 camera.position.z = 3
 
 const renderer = new THREE.WebGLRenderer({
@@ -96,8 +96,8 @@ window.addEventListener('click', () => {
 })
 
 // Texture
-let imageWidth = 1200;
-let imageHeight = 600;
+let imageWidth = 1200
+let imageHeight = 600
 const segmentsX = 400
 const imageAspect = imageWidth/imageHeight
 let fov_y = camera.position.z * camera.getFilmHeight() / camera.getFocalLength();
@@ -220,8 +220,8 @@ const stats = Stats()
 document.body.appendChild(stats.dom)
 
 // GUI
-const gui = new dat.GUI({width: 400});
-gui.add(material.uniforms.colorThreshold, 'value').min(0).max(1).step(0.001).name('Threshold')
+// const gui = new dat.GUI({width: 400});
+// gui.add(material.uniforms.colorThreshold, 'value').min(0).max(1).step(0.001).name('Threshold')
 
 // Draw Shapes
 function animateUsers(){
@@ -270,6 +270,9 @@ function getGeolocation(){
         material.uniforms.points.value[0]= {
             position: new THREE.Vector2(me.x,me.y)
          }
+
+         controls.target.set(me.x,me.y,0.12)
+         camera.position.set(me.x,me.y)
     }, 
     // Error
     (err) => {
